@@ -1,0 +1,351 @@
+﻿<?xml version="1.0"?>
+<atribut>
+	<size> 
+		<name>-L</name>   
+		<value>L</value> 
+	</size> 
+	<size> 
+		<name>-M</name>   
+		<value>M</value> 
+	</size> 
+	<size> 
+		<name>-S</name>   
+		<value>S</value> 
+	</size>
+	<size> 
+		<name>L-</name>   
+		<value>L</value> 
+	</size> 
+	<size> 
+		<name>M-</name>   
+		<value>M</value> 
+	</size> 
+	<size> 
+		<name>S-</name>   
+		<value>S</value> 
+	</size> 
+	<size> 
+		<name>S/L-</name>   
+		<value>S/L</value> 
+	</size> 
+	<size> 
+		<name>M/L-</name>   
+		<value>M/L</value> 
+	</size> 
+	<size> 
+		<name>X/L-</name>   
+		<value>XL</value> 
+	</size> 
+	<size> 
+		<name>XL-</name>   
+		<value>XL</value> 
+	</size> 
+	<size> 
+		<name>S/M-</name>   
+		<value>S/M</value> 
+	</size> 	
+	<size> 
+		<name>SM-</name>   
+		<value>S/M</value> 
+	</size> 	
+	<size> 
+		<name>-L/XL</name>   
+		<value>L/XL</value> 
+	</size> 
+	<size> 
+		<name>-M/D</name>   
+		<value>M/D</value> 
+	</size> 
+	<size> 
+		<name>-M/L</name>   
+		<value>M/L</value> 
+	</size> 
+	<size> 
+		<name>-S/L</name>   
+		<value>S/L</value> 
+	</size> 
+	<size> 
+		<name>-S/M</name>   
+		<value>S/M</value> 
+	</size> 
+	<size> 
+		<name>-XL</name>   
+		<value>XL</value> 
+	</size> 
+	<size> 
+		<name>-XS</name>   
+		<value>XS</value> 
+	</size> 
+	<size> 
+		<name>-XXL</name>   
+		<value>XXL</value> 
+	</size> 
+	<size> 
+		<name>-XXXL</name>   
+		<value>XXXL</value> 
+	</size> 
+	<size> 
+		<name>-XL/XXL</name>   
+		<value>XL/XXL</value> 
+	</size> 
+	<size> 
+		<name>-XL/XXXL</name>   
+		<value>XL/XXXL</value> 
+	</size> 
+	<size> 
+		<name>-1X-2X</name>   
+		<value>1X-2X</value> 
+	</size>  
+	<size> 
+		<name>-3X-4X</name>   
+		<value>3X-4X</value> 
+	</size>  
+	<size> 
+		<name>-1X/2X</name>   
+		<value>1X/2X</value> 
+	</size>  
+	<size> 
+		<name>-OS</name>   
+		<value>One Size</value> 
+	</size>  
+	<size> 
+		<name>-QS</name>   
+		<value>Queen Size</value> 
+	</size> 
+	<color> 
+		<name> черно-зел</name>   
+		<value>зелёный</value> 
+	</color> 
+	<color> 
+		<name> черно-сирен</name>   
+		<value>фиолетовый</value> 
+	</color> 
+	<color> 
+		<name> черно-фиол</name>   
+		<value>фиолетовый</value> 
+	</color> 
+	<color> 
+		<name> черно-зол</name>   
+		<value>чёрный</value> 
+	</color> 
+	<color> 
+		<name> черно-син</name>   
+		<value>синий</value> 
+	</color> 
+	<color> 
+		<name> черно-сереб</name>   
+		<value>чёрный</value> 
+	</color> 
+	<color> 
+		<name> черно-бел</name>   
+		<value>чёрно-белый</value> 
+	</color> 
+	<color> 
+		<name> черно-красн</name>   
+		<value>красный</value> 
+	</color> 
+	<color> 
+		<name> черно-роз</name>   
+		<value>розовый</value> 
+	</color> 
+	<color> 
+		<name> черно-желт</name>   
+		<value>желтый</value> 
+	</color>  
+	<color> 
+		<name> черн-роз</name>   
+		<value>розовый</value> 
+	</color> 
+	<color> 
+		<name> черн.-роз</name>   
+		<value>розовый</value> 
+	</color> 
+	<color> 
+		<name> чер-роз</name>   
+		<value>розовый</value> 
+	</color> 
+	<color> 
+		<name> чер.-роз</name>   
+		<value>розовый</value> 
+	</color> 
+	<color> 
+		<name> чер-бел</name>   
+		<value>чёрно-белый</value> 
+	</color> 
+	<color> 
+		<name> зелено-бел</name>   
+		<value>зелёный</value> 
+	</color> 
+	<color> 
+		<name> зелено-роз</name>   
+		<value>зелёный</value> 
+	</color>  
+	<color> 
+		<name> сине-зел</name>   
+		<value>синий</value> 
+	</color>
+	<color> 
+		<name> неоново-зел</name>   
+		<value>зелёный</value> 
+	</color>
+	<color> 
+		<name> ярко-роз</name>   
+		<value>розовый</value> 
+	</color>
+	<color> 
+		<name> бело-роз</name>   
+		<value>розовый</value> 
+	</color>
+	<color> 
+		<name> бело-зел</name>   
+		<value>зелёный</value> 
+	</color>
+	<color> 
+		<name> бело-син</name>   
+		<value>синий</value> 
+	</color>
+	<color> 
+		<name> бело-чер</name>   
+		<value>чёрно-белый</value> 
+	</color>
+	<color> 
+		<name> бело-крас</name>   
+		<value>красный</value> 
+	</color>
+	<color> 
+		<name> бело-фиол</name>   
+		<value>фиолетовый</value> 
+	</color>
+	<color> 
+		<name> нежно-зел</name>   
+		<value>зелёный</value> 
+	</color>
+	<color> 
+		<name> нежно-роз</name>   
+		<value>розовый</value> 
+	</color>
+	<color> 
+		<name> оранжево-роз</name>   
+		<value>оранжевый</value> 
+	</color>
+	<color> 
+		<name> оранжево-бел</name>   
+		<value>оранжевый</value> 
+	</color>
+	<color> 
+		<name> оранжево-жел</name>   
+		<value>оранжевый</value> 
+	</color>
+	<color> 
+		<name> оранж.-роз</name>   
+		<value>розовый</value> 
+	</color>
+	<color> 
+		<name> бюрюзово-розовый</name>   
+		<value>розовый</value> 
+	</color>
+	<color> 
+		<name> /фиол</name>   
+		<value>фиолетовый</value> 
+	</color>
+	<color> 
+		<name> /роз</name>   
+		<value>розовый</value> 
+	</color>
+	<color> 
+		<name> /чер</name>   
+		<value>черный</value> 
+	</color>
+	<color> 
+		<name> /бел</name>   
+		<value>белый</value> 
+	</color>
+	<color> 
+		<name> /жел</name>   
+		<value>желтый</value> 
+	</color>
+	<color> 
+		<name> /оран</name>   
+		<value>оранжевый</value> 
+	</color>
+	<color> 
+		<name> /син</name>   
+		<value>синий</value> 
+	</color>
+	<color> 
+		<name> /зел</name>   
+		<value>зелёный</value> 
+	</color>
+	<color> 
+		<name> /крас</name>   
+		<value>красный</value> 
+	</color>
+	<color> 
+		<name>./чер</name>   
+		<value>черный</value> 
+	</color>
+	<color> 
+		<name>./крас</name>   
+		<value>красный</value> 
+	</color>
+	<color> 
+		<name>./бел</name>   
+		<value>белый</value> 
+	</color>
+	<color> 
+		<name>.фиол</name>   
+		<value>фиолетовый</value> 
+	</color>
+	<color> 
+		<name> чер</name>   
+		<value>черный</value> 
+	</color>
+	<color> 
+		<name> бел</name>   
+		<value>белый</value> 
+	</color>
+	<color> 
+		<name> роз</name>   
+		<value>розовый</value> 
+	</color>
+	<color> 
+		<name> зел</name>   
+		<value>зелёный</value> 
+	</color>
+	<color> 
+		<name> крас</name>   
+		<value>красный</value> 
+	</color>
+	<color> 
+		<name> син</name>   
+		<value>синий</value> 
+	</color>
+	<color> 
+		<name> желт</name>   
+		<value>желтый</value> 
+	</color>
+	<color> 
+		<name> оран</name>   
+		<value>оранжевый</value> 
+	</color>
+	<color> 
+		<name> фиол</name>   
+		<value>фиолетовый</value> 
+	</color>
+	<color> 
+		<name> беже</name>   
+		<value>оранжевый</value> 
+	</color>
+	<color> 
+		<name>/лео</name>   
+		<value>желтый</value> 
+	</color>
+	<color> 
+		<name> леопа</name>   
+		<value>желтый</value> 
+	</color>	
+	<color> 
+		<name> голуб</name>   
+		<value>синий</value> 
+	</color>	
+</atribut>
