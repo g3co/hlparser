@@ -19,10 +19,12 @@ function makeUrl ($path,$alias){
    
 }
 
-function insertCat ($id=NULL, $name, $next, $parent) {
+function insertCat ($id='NULL', $name, $next, $parent) {
 	$AI = QueryGet("SELECT AUTO_INCREMENT FROM information_schema.TABLES WHERE table_name='oc_parcer_category';");
-	consoleLog($AI);
-	QueryExec("INSERT INTO oc_parcer_category (`id`, `target_id`, `name`,`next`,`parent`,`margin`,`quantity`) VALUES ('{$id}', '".$AI[0]['AUTO_INCREMENT']."',  '{$name}','{$next}',{$parent},75,5)");
+
+	QueryExec("INSERT INTO oc_parcer_category (`id`, `target_id`, `name`,`next`,`parent`,`margin`,`quantity`) VALUES ({$id}, '".$AI[0]['AUTO_INCREMENT']."',  '{$name}','{$next}',{$parent},75,5)");
+	consoleLog("INSERT INTO oc_parcer_category (`id`, `target_id`, `name`,`next`,`parent`,`margin`,`quantity`) VALUES ({$id}, '".$AI[0]['AUTO_INCREMENT']."',  '{$name}','{$next}',{$parent},75,5)");
+
 }
 
 /*	Получаем Id категории по её названию из прайса
