@@ -7,6 +7,10 @@ class system_base{
 		return system_database::getInstance();
 	}
 
+	public function orm(){
+		return system_orm::getInstance();
+	}
+
 	protected function addErrorLog(string $error){
 		$this->errors[] = $error;
 	}

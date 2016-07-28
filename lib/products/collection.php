@@ -31,15 +31,15 @@ class products_collection extends system_base{
 		if(!$product->date_modified){
 			$product->date_modified = date('Y-m-d H:i:s');
 		}
-		echo 'xxxx';
-		$preparedQuery = $product->prepareForQuery();
-		print_r($this->db()->query("INSERT INTO `oc_product` (" . $preparedQuery['keys'] . ") VALUES (" . $preparedQuery['values'] . ")"));
-		print_r("INSERT INTO `oc_product` (" . $preparedQuery['keys'] . ") VALUES (" . $preparedQuery['values'] . ")");
+
+		$product->product_id = NULL;
+
+		$insert = $this->orm()->insert();
+		$insert->setTable('oc_product');
+		$insert->setValues($product->compileFields());
+		$insert->do();
 
 		$description->product_id = system_database::getInstance()->insert_id;
-		$preparedQuery = $description->prepareForQuery();
-
-		print_r($this->db()->query("INSERT INTO `oc_product_description` (" . $preparedQuery['keys'] . ") VALUES (" . $preparedQuery['values'] . ")"));
 
 	}
 

@@ -15,7 +15,7 @@ function clearTables () {
 	QueryExec("TRUNCATE oc_category");
 	QueryExec("TRUNCATE oc_category_description");
 	QueryExec("TRUNCATE oc_category_to_store");
-	QueryExec("TRUNCATE oc_parcer_category");
+//	QueryExec("TRUNCATE oc_parcer_category");
 	QueryExec("TRUNCATE oc_url_alias");
 	QueryExec("TRUNCATE oc_manufacturer");
 	QueryExec("TRUNCATE oc_manufacturer_description");
