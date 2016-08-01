@@ -27,9 +27,6 @@ if (isset($argv[ 1 ]) && $argv[ 1 ] == 'new') {
 	}
 }
 
-$mail = new YandexSMTP;
-$mail->stdTemplate = ROOT . '/templates/standart.tpl';
-
 $imageClass = new imageClass;
 $imageClass->imagePath = ROOT . '/../image/data/sexshop/';
 $imageClass->pathToDB = 'data/sexshop/';
@@ -49,17 +46,15 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 
 	while (($data = fgetcsv($handle, 10000000, ";")) !== FALSE) {
-
-		if (++$hundreedTimer >= 1000) {
-			$hundreedTimer = 0;
-		}
-
 		$catId = NULL;
 		$iteration++;
 		$id = NULL;
-		++$i;
 		$loseFlag = false;
 
+		if (++$hundreedTimer >= 1000) {
+			$hundreedTimer = 0;
+			echo $iteration . "\n";
+		}
 
 		$request = QueryGet("SELECT P.product_id,P.sku,PC.category_id FROM `oc_product` P " . "LEFT JOIN oc_product_to_category PC ON P.product_id = PC.product_id " . "WHERE P.sku = '" . $data[ 0 ] . "' AND PC.main_category = 1 LIMIT 2");
 
@@ -68,7 +63,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			print_r($request);
 			print_r($data);
 		} elseif (!count($request)) {
-			if ($i != 1 && $data[ 34 ]) {
+			if ($iteration != 1 && $data[ 34 ]) {
 				/* 	Создаём список категорий
 				 */
 				$products_count++;
