@@ -26,17 +26,17 @@ if(isset($remotePrice[0]) && $remotePrice[0][10]){
     }
 }
 
-preg_match_all("/([0-9]+)[\s]{0,1}мл/",$productName,$mods);
+preg_match_all("/([0-9]+)[\s]{0,1}мл/",$oData->title,$mods);
 if(isset($mods[1][0])){
     $atributes->set('volume',$mods[1][0]);
 }
 
-preg_match_all("/([0-9]+)[\s]{0,1}ml/",$productName,$mods);
+preg_match_all("/([0-9]+)[\s]{0,1}ml/",$oData->title,$mods);
 if(isset($mods[1][0])){
     $atributes->set('volume',$mods[1][0]);
 }
 
-preg_match_all("/([0-9]+)[\s]{0,1}г/",$productName,$mods);
+preg_match_all("/([0-9]+)[\s]{0,1}г/",$oData->title,$mods);
 if(isset($mods[1][0])){
     $atributes->set('volume',$mods[1][0]);
 }
@@ -125,13 +125,13 @@ switch ($data[6]) {
  * 
  */
 if($categoryArr[0] == "Духи"){
-    if(substr_count($productName,'муж')){
+    if(substr_count($oData->title,'муж')){
         $atributes->set('type',"Мужские");
     }
-    if(substr_count($productName,'жен')){
+    if(substr_count($oData->title,'жен')){
         $atributes->set('type',"Женские");
     }
-    if(substr_count($productName,'Дезодор')){
+    if(substr_count($oData->title,'Дезодор')){
         $atributes->set('type',"Дезодоранты");
     }
 }

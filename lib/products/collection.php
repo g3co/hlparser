@@ -37,10 +37,15 @@ class products_collection extends system_base{
 		$insert = $this->orm()->insert();
 		$insert->setTable('oc_product');
 		$insert->setValues($product->compileFields());
+
+		$description->product_id = $insert->do();
+
+		$insert = $this->orm()->insert();
+		$insert->setTable('oc_product_description');
+		$insert->setValues($description->compileFields());
 		$insert->do();
 
-		$description->product_id = system_database::getInstance()->insert_id;
-
+		return $description->product_id;
 	}
 
 	/**

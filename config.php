@@ -11,4 +11,5 @@ class config {
 	const DB_USERNAME = 'honeylovers';
 	const DB_PASSWD = '7mPJ6xMS3LW003Zv';
 	const DB_NAME = 'honeylovers';
+	const CONSOLE_DEBUG = true;
 }
