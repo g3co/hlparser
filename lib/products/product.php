@@ -21,4 +21,18 @@ class products_product extends system_base{
 	function getName(){
 		return $this->description;
 	}
+
+	function save(){
+		$insert = $this->orm()->insert();
+		$insert->setTable('oc_product');
+		$insert->setValues($this->product->compileFields());
+
+		$insert->do();
+
+		$insert = $this->orm()->insert();
+		$insert->setTable('oc_product_description');
+		$insert->setValues($this->product_description->compileFields());
+
+		$insert->do();
+	}
 }

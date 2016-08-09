@@ -48,27 +48,27 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 	foreach (QueryGet("SELECT * FROM oc_parcer_category") as $category) {
 		$categoryArrBase[ $category[ 'id' ] ] = $category;
+
 	}
 
 
-	while (($data = fgetcsv($handle, 10000000, ";")) !== FALSE) {
+	while (($data = fgetcsv($handle, 100000000, ";")) !== FALSE) {
 
 		$id = NULL;
 		$catId = NULL;
 		$iteration++;
 		$catArr = array();
 
-		/** Первая строчка, можно собрать названия */
+		/** Первая строчка, собираем названия колонок */
 		if($iteration === 1){
 			$arrDataNames = $data;
-			print_r($data);
 			continue;
 		}
 
 		$arrNamedData = array_combine ($arrDataNames, $data);
 		$oData->update($arrNamedData);
 
-		//consoleLog($oData);
+
 
 		$request = QueryGet("SELECT P.product_id,P.sku,PC.category_id FROM `oc_product` P LEFT JOIN oc_product_to_category PC ON P.product_id = PC.product_id WHERE P.sku = '" . $data[ 0 ] . "' AND PC.main_category = 1");
 
@@ -90,6 +90,9 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 				$catId = $catArr[ 'target_id' ];
 			}
 
+			if($catArr['target_id'] == 0) {
+				continue;
+			}
 
 			$data[ 4 ] = ($data[ 4 ] != "Презервативы") ? $data[ 4 ] : $data[ 4 ] . " производитель";
 			insertManufacturer($data[ 4 ]);
@@ -102,12 +105,19 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 			include(ROOT . '/atributesRule.php');
 
-			$title = $titleGenerator->getTitle(array( $wordlib->clearTitle($oData->title), (isset($categoryArr[ 1 ])) ? $categoryArr[ 1 ] : $categoryArr[ 0 ], $data[ 4 ], $wordlib->translitEN($wordlib->clearTitle($oData->title)), $atributes->getParam('color') ));
+			$title = $titleGenerator->getTitle(array(
+				$wordlib->clearTitle($oData->title),
+				(isset($categoryArr[ 1 ])) ? $categoryArr[ 1 ] : $categoryArr[ 0 ],
+				$data[ 4 ],
+				$wordlib->translitEN($wordlib->clearTitle($oData->title)),
+				$atributes->getParam('color')
+			));
 
 			$oProductTemplate = new templates_product;
 			$oProductTemplate->product_id = NULL;
 			$oProductTemplate->model = $oData->code;
 			$oProductTemplate->sku = $oData->code;
+			$oProductTemplate->isbn = config::SEX_OPT_STORE;
 			$oProductTemplate->stock_status_id = 5;
 			$oProductTemplate->quantity = 1;
 			$oProductTemplate->tax_class_id = 1;
@@ -167,7 +177,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 	}
 }
 
-foreach (QueryGet("SELECT * FROM oc_parcer_category") as $categoryBit) {
+foreach (QueryGet("SELECT * FROM oc_parcer_category WHERE `target_id` != '0'") as $categoryBit) {
 	if (!QueryGet("SELECT category_id FROM oc_category WHERE category_id = '" . $categoryBit[ 'id' ] . "'")) {
 		makeCategory($categoryBit[ 'id' ], $categoryBit[ 'parent' ], $categoryBit[ 'name' ], $categoryBit[ 'target_id' ]);
 		makeUrl("category_id=" . $categoryBit[ 'id' ], $wordlib->translitRU($categoryBit[ 'name' ]));

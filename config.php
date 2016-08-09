@@ -12,4 +12,6 @@ class config {
 	const DB_PASSWD = '7mPJ6xMS3LW003Zv';
 	const DB_NAME = 'honeylovers';
 	const CONSOLE_DEBUG = true;
+
+	const SEX_OPT_STORE = 0;
 }

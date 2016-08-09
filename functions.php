@@ -8,9 +8,9 @@
 
 function consoleLog($string) {
 	static $consoleLogCounter = 0;
-	echo "\n " . (++$consoleLogCounter) . "--------------------- \n";
+	echo "\n " . "-----------#" . (++$consoleLogCounter) . "----------- \n";
 	print_r($string);
-	echo "\n --------------------- \n";
+	echo "\n ------------------------- \n";
 }
 
 function makeUrl($path, $alias) {
