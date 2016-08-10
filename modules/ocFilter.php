@@ -1,26 +1,16 @@
 <?php
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of ocFilter
  *
  * @author PHP-1
  */
 class ocFilter {
-	private $atributes = array();
 	public $values = array();
 	public $counter = 0;
 	protected $first = NULL;
-	public $rusize = NULL;
+	protected $loadedOptions = array();
 
-	function __construct($atributes) {
-
-		$this->rusize[ 'name' ] = 'Российский размер';
+	function __construct() {
 	}
 
 	public function checkFirst() {
@@ -34,26 +24,49 @@ class ocFilter {
 	public function set($value, $id, $category) {
 		$valueName = mb_strtolower($value[ 'value' ], "utf-8");
 
-		
-		if (QueryExec("INSERT INTO oc_ocfilter_option_description (`option_id`, `language_id`, `name`, `postfix`, `description`) VALUES ('{$value['id']}', '1', '{$value['name']}', '', '')", $debug = true, $debugLevel = 0)) {
-			
+		/** Секция записи атрибутов
+		 *  в фильтр. Только при первом прогоне
+		 */
+		if($this->first && !in_array($value[ 'id' ],$this->loadedOptions)){
+			$this->loadedOptions[] = $value[ 'id' ];
 
-			$AI = QueryGet("SHOW TABLE STATUS LIKE 'oc_ocfilter_option_description'");
+			$insertOptionDescription = system_orm::getInstance()->insert();
+			$insertOptionDescription->setTable('oc_ocfilter_option_description');
+			$insertOptionDescription->setValues(array(
+					'option_id' => $value[ 'id' ],
+					'language_id' => 1,
+					'name' => $value[ 'name' ],
+					'postfix' => '',
+					'description' => '' )
+			);
+			$insertOptionDescription->do();
 
-			QueryExec("INSERT INTO oc_ocfilter_option (`option_id`, `type`, `keyword`, `selectbox`, `grouping`," . " `color`, `image`, `status`, `sort_order`) VALUES ('" . $AI[ 0 ][ 'Rows' ] . "', 'checkbox', '', '0', '0', '0', '0', '1', '" . $AI[ 0 ][ 'Rows' ] . "00')");
+			$insertOption = system_orm::getInstance()->insert();
+			$insertOption->setTable('oc_ocfilter_option');
+			$insertOption->setValues(array(
+				'option_id' => $value[ 'id' ],
+				'type' => 'checkbox',
+				'keyword' => '',
+				'selectbox' => 0,
+				'grouping' => 0,
+				'color' => 0,
+				'image' => 0,
+				'status' => 1,
+				'sort_order' => $value[ 'id' ] . '00'
+			));
+			$insertOption->do();
 
-			QueryExec("INSERT INTO oc_ocfilter_option_to_store (`option_id`, `store_id`) VALUES ('" . $AI[ 0 ][ 'Rows' ] . "', '0')");
+			$insertOptionToStore = system_orm::getInstance()->insert();
+			$insertOptionToStore->setTable('oc_ocfilter_option_to_store');
+			$insertOptionToStore->setValues(array (
+				'option_id' => $value[ 'id' ],
+				'store_id' => 0
+			));
+			$insertOptionToStore->do();
 		}
 
-		if (!isset($this->rusize[ 'option_id' ])) {
-			$rusize = QueryGet("SELECT * FROM `oc_ocfilter_option_description` WHERE `name` = '" . $this->rusize[ 'name' ] . "'");
 
-			if (isset($rusize[ 0 ][ 'option_id' ])) {
-				$this->rusize[ 'option_id' ] = $rusize[ 0 ][ 'option_id' ];
-			}
-		}
-
-		if (isset($this->rusize[ 'option_id' ]) && $value[ 'id' ] == $this->rusize[ 'option_id' ]) {
+		if ($value[ 'id' ] == config::RUSIZE_ATRIBUTE_ID) {
 			$rusizeExplode = explode('-', $valueName);
 
 			if (count($rusizeExplode) > 1) {
@@ -65,26 +78,39 @@ class ocFilter {
 				}
 			}
 			foreach ($rusizeExplode as $valueName) {
-				if (QueryExec("INSERT INTO `oc_ocfilter_option_value_description` (`value_id`, `option_id`, `language_id`, `name`) VALUES (NULL, '{$value['id']}', '1', '{$valueName}')", $debug = true, $debugLevel = 0)) {
-					$AI = QueryGet("SHOW TABLE STATUS LIKE 'oc_ocfilter_option_value_description'");
+				$insertOptionValueDescription = system_orm::getInstance()->insert();
+				$insertOptionValueDescription->setTable('oc_ocfilter_option_value_description');
+				$insertOptionValueDescription->setValues(array (
+					'value_id'=>NULL,
+					'option_id' => $value[ 'id' ],
+					'language_id' => 1,
+					'name' => $valueName
+				));
+				$value_id = $insertOptionValueDescription->do();
 
-					QueryExec("INSERT INTO `oc_ocfilter_option_value` (`value_id`, `option_id`, `keyword`, `color`, `image`, `sort_order`) VALUES ('{$AI[0]['Rows']}', '{$value['id']}', '', '', '', '0')");
+				if ($value_id) {
+
+					$insertOptionValue = system_orm::getInstance()->insert();
+					$insertOptionValue->setTable('oc_ocfilter_option_value');
+					$insertOptionValue->setValues(array (
+						'value_id' => $value_id,
+						'option_id' => $value[ 'id' ],
+						'keyword' => '',
+						'color' => '',
+						'image' => '',
+						'sort_order' => 0
+					));
+
+					$insertOptionValue->do();
+				}else{
+					/** TODO: дописать получение $value_id если не удалось создать его */
 				}
 
-				$value_id = QueryGet("SELECT value_id FROM `oc_ocfilter_option_value_description` WHERE `name` LIKE '" . $valueName . "'");
+				if(true){
+					QueryExec("INSERT INTO `oc_ocfilter_option_to_category`
+                    (`option_id`, `category_id`) VALUES ('" . $value[ 'id' ] . "', '" . $category . "')");
 
-				if (isset($value_id[ 0 ])) {
-					if ($this->first) {
-						QueryExec("INSERT INTO `oc_ocfilter_option_to_category`
-                        (`option_id`, `category_id`) VALUES ('" . $value[ 'id' ] . "', '" . $category . "')");
-
-						QueryExec("INSERT INTO `oc_ocfilter_option_value_to_product` " . "(`product_id`, `value_id`, `option_id`, `slide_value_min`, `slide_value_max`) " . "VALUES ('" . $id . "', '" . $value_id[ 0 ][ 'value_id' ] . "', " . "'" . $value[ 'id' ] . "', '0.0000', '0.0000')");
-					} else {
-						$atribInCat = QueryGet("SELECT * FROM oc_ocfilter_option_to_category " . "WHERE category_id='" . $category . "' AND option_id='" . $value[ 'id' ] . "'");
-						if (count($atribInCat)) {
-							QueryExec("INSERT INTO `oc_ocfilter_option_value_to_product` " . "(`product_id`, `value_id`, `option_id`, `slide_value_min`, `slide_value_max`) " . "VALUES ('" . $id . "', '" . $value_id[ 0 ][ 'value_id' ] . "', " . "'" . $value[ 'id' ] . "', '0.0000', '0.0000')");
-						}
-					}
+					QueryExec("INSERT INTO `oc_ocfilter_option_value_to_product` " . "(`product_id`, `value_id`, `option_id`, `slide_value_min`, `slide_value_max`) " . "VALUES ('" . $id . "', '" . $value_id . "', " . "'" . $value[ 'id' ] . "', '0.0000', '0.0000')");
 				}
 			}
 		} else {

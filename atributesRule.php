@@ -75,12 +75,12 @@ if ($data[ 24 ]) {
 if (isset($categoryArr[ 1 ]) && $categoryArr[ 1 ] == "С вибрацией") {
 	$atributes->set('vibration', "Да");
 }
-//elseif(isset($categoryArr[1]) && $categoryArr[1] == "Без вибрации") {$atributes->set('vibration',"Нет");}
+elseif(isset($categoryArr[1]) && $categoryArr[1] == "Без вибрации") {$atributes->set('vibration',"Нет");}
 
 if ($categoryArr[ 0 ] == "Вибраторы") {
 	$atributes->set('vibration', "Да");
 }
-//elseif($categoryArr[0] == "Фаллоимитаторы") {$atributes->set('vibration',"Нет");}
+elseif($categoryArr[0] == "Фаллоимитаторы") {$atributes->set('vibration',"Нет");}
 
 if (isset($categoryArr[ 1 ])) {
 	switch ($categoryArr[ 1 ]) {

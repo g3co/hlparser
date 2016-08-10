@@ -1,12 +1,12 @@
 <?php
 
-/** Класс для вставки данных в БД
+/** Класс для получения данных из БД
  * Created by PhpStorm.
  * User: Валера
  * Date: 29.07.2016
  * Time: 0:20
  */
-class system_orm_insert extends system_orm_base implements implements_orm{
+class system_orm_select extends system_orm_base implements implements_orm{
 
 	/** Выбор таблицы
 	 * @param string $table имя таблицы в БД

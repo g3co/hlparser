@@ -14,4 +14,8 @@ class config {
 	const CONSOLE_DEBUG = true;
 
 	const SEX_OPT_STORE = 0;
+
+	#ocFilter constants
+
+	const RUSIZE_ATRIBUTE_ID = 11; #ид атрибута - "российсикй размер"
 }
