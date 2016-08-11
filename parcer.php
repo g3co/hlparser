@@ -40,7 +40,6 @@ $imageClass->pathToDB = 'data/sexshop/';
 $paa = new PriceAndAvailable;
 $titleGenerator = new titleGenerator(ROOT . "/cfg/title.xml");
 $atributes = new atributes($atributesArr, $wordlib->get_xml(ROOT . "/atribut.xml"));
-$atributes->filter->checkFirst();
 
 $oData = new templates_csv_data();
 if (($handle = fopen($file, "r")) !== FALSE) {

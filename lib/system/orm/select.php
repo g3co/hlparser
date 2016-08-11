@@ -7,6 +7,7 @@
  * Time: 0:20
  */
 class system_orm_select extends system_orm_base implements implements_orm{
+	protected $output = array();
 
 	/** Выбор таблицы
 	 * @param string $table имя таблицы в БД
@@ -15,32 +16,40 @@ class system_orm_select extends system_orm_base implements implements_orm{
 		$this->table = $table;
 	}
 
-	/** Установка значений для вставки
-	 * @param array $values значения для вставки в формате 'имя колонки' => 'значение'
+	/** Установка условий выборки
+	 * @param array $values значения для построения условия выборки 'имя колонки' => 'значение'
 	 */
-	function setValues(array $values) {
+	function setConditions(array $values) {
 		$this->values = $values;
 	}
 
-	/** Выполнить запрос insert
-	 * @return int возвращает AI последнего вставленного элемента
+	/** Установка возвращаемых полей
+	 * @param string $output значения для построения условия выборки 'имя колонки' => 'значение'
+	 */
+	function setOutputValues(string $output) {
+		$this->output = $output;
+	}
+
+	/** Выполнить запрос SELECT
+	 * @return int возвращает результат запроса
 	 */
 	function do($debug = false){
-		$valuesString = array();
-		$keysString = array();
+		$conditions = array();
 
 		foreach($this->values as $key=>$value){
-			if($value === NULL){
-				$valuesString[] =   'NULL';
-			}else{
-				$valuesString[] =   '"' . addslashes($value) . '"';
-			}
-
-			$keysString[]   =   '`' . addslashes($key) . '`';
+			$conditions[]   =   '`' . addslashes($key) . '` = \'' . $value . '\'';
 		}
-		if($debug) echo "INSERT INTO `" . $this->table . "` (". implode(',',$keysString) .") VALUES (". implode(',',$valuesString) .")\n\n";
 
-		lib_database::getInstance()->query("INSERT INTO `" . $this->table . "` (". implode(',',$keysString) .") VALUES (". implode(',',$valuesString) .")");
-		return lib_database::getInstance()->insert_id;
+		$sql = "SELECT * FROM `" . $this->table . "` WHERE " . implode(' AND ', $conditions);
+		if($debug) echo $sql . "\n\n";
+
+		if(!empty($this->output)){
+			$result = lib_database::getInstance()->query($sql)->fetch_assoc();
+			$result = $result[$this->output];
+		}else{
+			$result = lib_database::getInstance()->query($sql)->fetch_all(MYSQLI_ASSOC);
+		}
+
+		return $result;
 	}
 }
