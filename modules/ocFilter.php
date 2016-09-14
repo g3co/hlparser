@@ -36,13 +36,10 @@ class ocFilter {
 			if (count($rusizeExplode) > 1) {
 				$start = $rusizeExplode[ 0 ];
 				$stop = $rusizeExplode[ 1 ];
-				$rusizeExplode = array();
+
 				for ($i = 2; $start <= $stop; $start += $i) {
-					$rusizeExplode[] = $start;
+                    $this->setRelations($start, $value, $id, $category);
 				}
-			}
-			foreach ($rusizeExplode as $valueName) {
-				$this->setRelations($valueName, $value, $id, $category);
 			}
 		} else {
 			$this->setRelations($valueName, $value, $id, $category);

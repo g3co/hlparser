@@ -137,6 +137,8 @@ if (isset($categoryArr[ 1 ]) && $categoryArr[ 1 ] == "Сапоги") {
 
 
 switch ($data[ 6 ]) {
+
+    /** Крема и спреи */
 	case 'Духи/С феромонами мужские':
 		$atributes->set('type', "Мужские");
 		break;
@@ -149,7 +151,33 @@ switch ($data[ 6 ]) {
 	case 'Дезодоранты интимные':
 		$atributes->set('type', "Дезодоранты");
 		break;
+
+    /** Крема и спреи */
+    case 'Крема и спреи/Продлевающие':
+        $atributes->set('type', "Продлевающие");
+        break;
+    case 'Крема и спреи/Возбуждающие':
+        $atributes->set('type', "Возбуждающие");
+        break;
+
+    /** Смазки */
+    case 'Лубриканты/Анальные':
+        $atributes->set('type', "Анальные");
+        break;
+    case 'Лубриканты/Вагинальные':
+        $atributes->set('type', "Вагинальные");
+        break;
+    case 'Лубриканты/Вкусовые':
+        $atributes->set('type', "Вкусовые");
+        break;
+    case 'Лубриканты/Возбуждающие':
+        $atributes->set('type', "Возбуждающие");
+        break;
+    case 'Лубриканты/Продлевающие':
+        $atributes->set('type', "Продлевающие");
+        break;
 }
+
 
 /* Костыль, для обработки косячных категорий феромонов
  * 
@@ -166,32 +194,7 @@ if ($categoryArr[ 0 ] == "Духи") {
 	}
 }
 
-switch ($data[ 6 ]) {
-	case 'Крема и спреи/Продлевающие':
-		$atributes->set('type', "Продлевающие");
-		break;
-	case 'Крема и спреи/Возбуждающие':
-		$atributes->set('type', "Возбуждающие");
-		break;
-}
 
-switch ($data[ 6 ]) {
-	case 'Лубриканты/Анальные':
-		$atributes->set('type', "Анальные");
-		break;
-	case 'Лубриканты/Вагинальные':
-		$atributes->set('type', "Вагинальные");
-		break;
-	case 'Лубриканты/Вкусовые':
-		$atributes->set('type', "Вкусовые");
-		break;
-	case 'Лубриканты/Возбуждающие':
-		$atributes->set('type', "Возбуждающие");
-		break;
-	case 'Лубриканты/Продлевающие':
-		$atributes->set('type', "Продлевающие");
-		break;
-}
 //преобразование в российские размеры
 if ($atributes->getParam('size')) {
 	if ($data[ 6 ] == "Белье/Мужское белье") {

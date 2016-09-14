@@ -75,7 +75,6 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 		if (empty($request) && $data[ 34 ]) {
 			/* 	Создаём список категорий
 			 */
-			$products_count++;
 			$categoryArr = explode('/', $data[ 6 ]);
 
 			if (isset($categoryArr[ 1 ])) {
@@ -93,6 +92,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 				continue;
 			}
 
+
 			$data[ 4 ] = ($data[ 4 ] != "Презервативы") ? $data[ 4 ] : $data[ 4 ] . " производитель";
 			insertManufacturer($data[ 4 ]);
 
@@ -103,7 +103,6 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			$atributesFromName = $atributes->fromName($data[ 2 ]);
 
 			include(ROOT . '/atributesRule.php');
-
 			$title = $titleGenerator->getTitle(array(
 				$wordlib->clearTitle($oData->title),
 				(isset($categoryArr[ 1 ])) ? $categoryArr[ 1 ] : $categoryArr[ 0 ],
@@ -111,6 +110,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 				$wordlib->translitEN($wordlib->clearTitle($oData->title)),
 				$atributes->getParam('color')
 			));
+
 
 			$oProductTemplate = new templates_product;
 			$oProductTemplate->product_id = NULL;
@@ -160,6 +160,8 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 			/* Массив для отчёта
 			 */
+
+			$products_count++;
 			$addedProducts[] = array( 'productId' => $id, 'image' => $imageClass->setImage($data[ 13 ]), 'name' => $oData->title );
 		}else if(!empty($request)) {
 			$requestItem = current($request);
