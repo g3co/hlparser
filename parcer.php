@@ -93,10 +93,10 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			}
 
 
-			$data[ 4 ] = ($data[ 4 ] != "Презервативы") ? $data[ 4 ] : $data[ 4 ] . " производитель";
-			insertManufacturer($data[ 4 ]);
+			$oData->manufacturer = ($oData->manufacturer != "Презервативы") ? $oData->manufacturer : $oData->manufacturer . " производитель";
+			insertManufacturer($oData->manufacturer);
 
-			/* 	Список товаров
+			/**	Список товаров
 			 */
 			$keywords = implode(", ", explode(" ", $wordlib->clearstr($oData->title))) . ", " . implode(', ', $categoryArr);
 
@@ -106,12 +106,13 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			$title = $titleGenerator->getTitle(array(
 				$wordlib->clearTitle($oData->title),
 				(isset($categoryArr[ 1 ])) ? $categoryArr[ 1 ] : $categoryArr[ 0 ],
-				$data[ 4 ],
+				$oData->manufacturer,
 				$wordlib->translitEN($wordlib->clearTitle($oData->title)),
 				$atributes->getParam('color')
 			));
 
-
+			/** Создание товара
+			 */
 			$oProductTemplate = new templates_product;
 			$oProductTemplate->product_id = NULL;
 			$oProductTemplate->model = $oData->code;
@@ -121,8 +122,8 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			$oProductTemplate->quantity = 1;
 			$oProductTemplate->tax_class_id = 1;
 			$oProductTemplate->shipping = 1;
-			$oProductTemplate->image = $imageClass->setImage($data[ 13 ]);
-			$oProductTemplate->manufacturer_id = getManufacturerId($data[ 4 ]);
+			$oProductTemplate->image = $imageClass->setImage($oData->image);
+			$oProductTemplate->manufacturer_id = getManufacturerId($oData->manufacturer);
 
 			$oProductDescriptionTemplate = new templates_product_description;
 			$oProductDescriptionTemplate->name = $oData->title;
@@ -133,32 +134,60 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 			$id = products_collection::getInstance()->create($oProductTemplate, $oProductDescriptionTemplate);
 
-			$sql = "INSERT INTO oc_product_to_store (`product_id` ,`store_id`) VALUES ({$id}, '0')";
-			QueryExec($sql, true);
+			/** Внесение товара в магазин
+			 */
+			$insertProductToStore = system_orm::getInstance()->insert();
+			$insertProductToStore->setTable('oc_product_to_store');
+			$insertProductToStore->setValues(array (
+				'product_id' => $id,
+				'store_id' => '0'
+			));
+			$insertProductToStore->do();
 
-			$sql = "INSERT INTO oc_product_to_category (`product_id`, `category_id`, `main_category`) " . "VALUES ('{$id}', '{$catId}', '1')";
-			QueryExec($sql, true);
+			/** Внесение товара в категорию
+			 */
+			$insertProductToCategory = system_orm::getInstance()->insert();
+			$insertProductToCategory->setTable('oc_product_to_category');
+			$insertProductToCategory->setValues(array (
+				'product_id' => $id,
+				'category_id' => $catId,
+				'main_category' => '1'
+			));
+			$insertProductToCategory->do();
 
-
-			if ($data[ 14 ]) {
-				QueryExec("INSERT INTO `oc_product_image` (`product_id`, `image`, `sort_order`) " . "VALUES ('{$id}', '" . $imageClass->setImage($data[ 14 ]) . "', '0');", true);
-			}
-			if ($data[ 15 ]) {
-				QueryExec("INSERT INTO `oc_product_image` (`product_id`, `image`, `sort_order`) " . "VALUES ('{$id}', '" . $imageClass->setImage($data[ 15 ]) . "', '0');", true);
+			/** Добавление дополнительных изображений
+			*/
+			foreach (array($oData->image1,$oData->image2) as $additionalImage) {
+				if(empty($additionalImage)) continue;
+				$insertProductImage = system_orm::getInstance()->insert();
+				$insertProductImage->setTable('oc_product_image');
+				$insertProductImage->setValues(array (
+					'product_id' => $id,
+					'image' => $imageClass->setImage($additionalImage) ,
+					'sort_order' => '0'
+				));
+				$insertProductImage->do();
 			}
 
 
 			makeUrl("product_id=" . $id, $wordlib->translitRU($data[ 2 ]) . "_" . $id);
 
+
 			foreach ($atributes->get() as $atributBit) {
-
-				QueryExec("INSERT INTO `oc_product_attribute` " . "(`product_id`, `attribute_id`, `language_id`, `text`) " . "VALUES ('{$id}', '{$atributBit['id']}', '1', '{$atributBit['value']}')", true);
-
+				$insertProductAttribute = system_orm::getInstance()->insert();
+				$insertProductAttribute->setTable('oc_product_attribute');
+				$insertProductAttribute->setValues(array (
+					'product_id' => $id,
+					'attribute_id' => $atributBit['id'],
+					'language_id' => '1',
+					'text' => $atributBit['value']
+				));
+				$insertProductAttribute->do();
 
 				$atributes->filter->set($atributBit, $id, $catId);
 			}
 
-			/* Массив для отчёта
+			/** Массив для отчёта
 			 */
 
 			$products_count++;
