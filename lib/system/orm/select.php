@@ -11,29 +11,35 @@ class system_orm_select extends system_orm_base implements implements_orm{
 
 	/** Выбор таблицы
 	 * @param string $table имя таблицы в БД
+     * @return system_orm_select
 	 */
 	function setTable(string $table) {
 		$this->table = $table;
+        return $this;
 	}
 
 	/** Установка условий выборки
 	 * @param array $values значения для построения условия выборки 'имя колонки' => 'значение'
+     * @return system_orm_select
 	 */
 	function setConditions(array $values) {
 		$this->values = $values;
+        return $this;
 	}
 
 	/** Установка возвращаемых полей
 	 * @param string $output значения для построения условия выборки 'имя колонки' => 'значение'
+     * @return system_orm_select
 	 */
 	function setOutputValues(string $output) {
 		$this->output = $output;
+        return $this;
 	}
 
 	/** Выполнить запрос SELECT
 	 * @return int возвращает результат запроса
 	 */
-	function do($debug = false){
+	function do(){
 		$conditions = array();
 
 		foreach($this->values as $key=>$value){
@@ -41,7 +47,6 @@ class system_orm_select extends system_orm_base implements implements_orm{
 		}
 
 		$sql = "SELECT * FROM `" . $this->table . "` WHERE " . implode(' AND ', $conditions);
-		if($debug) echo $sql . "\n\n";
 
 		if(!empty($this->output)){
 			$result = lib_database::getInstance()->query($sql)->fetch_assoc();

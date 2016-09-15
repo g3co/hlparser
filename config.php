@@ -12,6 +12,7 @@ class config {
 	const DB_PASSWD = '7mPJ6xMS3LW003Zv';
 	const DB_NAME = 'honeylovers';
 	const CONSOLE_DEBUG = true;
+	const SITE_URL = 'http://honeylovers.ru';
 
 	const SEX_OPT_STORE = 0;
 

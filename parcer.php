@@ -220,6 +220,14 @@ foreach (QueryGet("SELECT * FROM oc_parcer_manufacturer") as $manufacturerBit) {
 		makeUrl("manufacturer_id=" . $manufacturerBit[ 'manufacturer_id' ], $wordlib->translitRU($manufacturerBit[ 'group' ]));
 	}
 }
+
+
+/** Напоминалка о поступлении товара*/
+$reminder = new productReminder();
+$reminder->check();
+
+echo system_templator::getInstance('reminder')->generate(['test'=>'test variable']);
+
 ?>
 
 <?php if(config::CONSOLE_DEBUG):?>

@@ -1,0 +1,4 @@
+<html>
+    Test
+    <?=$test?>
+</html>
