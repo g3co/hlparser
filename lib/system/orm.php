@@ -20,6 +20,10 @@ class system_orm {
 		return new system_orm_delete;
 	}
 
+	public function update(){
+		return new system_orm_update;
+	}
+
 	static public function getInstance() {
 		if (is_null(self::$_instance)) {
 			self::$_instance = new self();

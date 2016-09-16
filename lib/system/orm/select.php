@@ -37,7 +37,7 @@ class system_orm_select extends system_orm_base implements implements_orm{
 	}
 
 	/** Выполнить запрос SELECT
-	 * @return int возвращает результат запроса
+	 * @return array возвращает результат запроса
 	 */
 	function do(){
 		$conditions = array();

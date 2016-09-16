@@ -37,7 +37,7 @@ $imageClass = new imageClass;
 $imageClass->imagePath = ROOT . '/../image/data/sexshop/';
 $imageClass->pathToDB = 'data/sexshop/';
 
-$paa = new PriceAndAvailable;
+$priceAndAvailable = new PriceAndAvailable;
 $titleGenerator = new titleGenerator(ROOT . "/cfg/title.xml");
 $atributes = new atributes($atributesArr, $wordlib->get_xml(ROOT . "/atribut.xml"));
 
@@ -194,7 +194,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 		}
 
 		if ($id && !empty($catArr)) {
-			$paa->writePA(array( 'productId' => $id, 'categoryArr' => $catArr, 'price' => $data[ 11 ], 'available' => $data[ 34 ] ));
+            $priceAndAvailable->calculateProductData(array( 'productId' => $id, 'categoryArr' => $catArr, 'price' => $oData->price, 'available' => $oData->spb ));
 		}
 
 		/** Вывод в консоль информации о каждой 1000 обработанных товаров */
