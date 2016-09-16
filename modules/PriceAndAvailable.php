@@ -1,16 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * Description of PriceAndavailable
- *
- * @author валера
- */
 class PriceAndAvailable {
     
     public $categories = NULL;
@@ -23,9 +12,7 @@ class PriceAndAvailable {
         }
         return $this->categories[$category];
     }
-    
-   
-    
+
     public function writePA($input){
         $price = $input['price'] + $input['price']*$input['categoryArr']['margin']/100;
         if((int)$input['price'] <= 100) {$price = $price * 3;}
@@ -40,14 +27,12 @@ class PriceAndAvailable {
 		elseif((int)$input['price'] > 5000 && (int)$input['price'] <= 7000) {$price = $price * 0.8;}
 		elseif((int)$input['price'] > 7000 && (int)$input['price'] <= 9000) {$price = $price * 0.75;}
 		elseif((int)$input['price'] > 9000) {$price = $price * 0.7;}
+
 		$price = round($price,-1);
-//           print_r($input['categoryArr']);
+
         $quantity = ($input['available']) ? $input['categoryArr']['quantity'] : 0;
-		
-		/*	Создаём артикулы
-		*/
-		
-		$sku = (20000 - $input['productId'])*25;
+
+		$sku = (100000 - $input['productId'])*16;
 		
         QueryExec("UPDATE oc_product SET `quantity` = '".$quantity."', "
                 . "`price` = '".$price."', mpn = '".$sku."' WHERE product_id = ".$input['productId']);

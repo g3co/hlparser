@@ -49,9 +49,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 	foreach (QueryGet("SELECT * FROM oc_parcer_category") as $category) {
 		$categoryArrBase[ $category[ 'id' ] ] = $category;
-
 	}
-
 
 	while (($data = fgetcsv($handle, 100000000, ";")) !== FALSE) {
 
@@ -69,10 +67,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 		$arrNamedData = array_combine ($arrDataNames, $data);
 		$oData->update($arrNamedData);
 
-
-
 		$request = QueryGet("SELECT P.product_id,P.sku,PC.category_id FROM `oc_product` P LEFT JOIN oc_product_to_category PC ON P.product_id = PC.product_id WHERE P.sku = '" . $data[ 0 ] . "' AND PC.main_category = 1");
-
 
 		if (empty($request) && $data[ 34 ]) {
 			/* 	Создаём список категорий
@@ -171,9 +166,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 				$insertProductImage->do();
 			}
 
-
 			makeUrl("product_id=" . $id, $wordlib->translitRU($data[ 2 ]) . "_" . $id);
-
 
 			foreach ($atributes->get() as $atributBit) {
 				$insertProductAttribute = system_orm::getInstance()->insert();
@@ -223,7 +216,6 @@ foreach (QueryGet("SELECT * FROM oc_parcer_manufacturer") as $manufacturerBit) {
 	}
 }
 
-
 /** Напоминалка о поступлении товара*/
 $reminder = new productReminder();
 foreach($reminder->check() as $user){
@@ -237,9 +229,6 @@ foreach($reminder->check() as $user){
 	]);
 	mailer::getInstance()->setAddress($user['email'])->setSubject('Появились товары, которые вы ждёте')->setContent($content)->send();
 }
-
-
-
 ?>
 
 <?php if(config::CONSOLE_DEBUG):?>
