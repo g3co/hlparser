@@ -54,7 +54,6 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 
 	while (($data = fgetcsv($handle, 100000000, ";")) !== FALSE) {
-		break;
 
 		$id = NULL;
 		$catId = NULL;
