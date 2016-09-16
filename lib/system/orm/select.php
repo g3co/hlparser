@@ -40,13 +40,24 @@ class system_orm_select extends system_orm_base implements implements_orm{
 	 * @return array возвращает результат запроса
 	 */
 	function do(){
-		$conditions = array();
+        $where = '';
 
-		foreach($this->values as $key=>$value){
-			$conditions[]   =   '`' . addslashes($key) . '` = \'' . $value . '\'';
-		}
+        if(!is_null($this->values)){
+            $conditions = array();
 
-		$sql = "SELECT * FROM `" . $this->table . "` WHERE " . implode(' AND ', $conditions);
+            foreach($this->values as $key=>$value){
+                $method = "=";
+                if(is_array($value)){
+                    $method = $value[0];
+                    $value = $value[1];
+                }
+                $conditions[]   =   '`' . addslashes($key) . '` ' . $method . ' \'' . $value . '\'';
+            }
+
+            if(!empty($conditions)) $where = " WHERE " . implode(' AND ', $conditions);
+        }
+
+        $sql = "SELECT * FROM `" . $this->table . "`" . $where;
 
 		if(!empty($this->output)){
 			$result = lib_database::getInstance()->query($sql)->fetch_assoc();

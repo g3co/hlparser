@@ -39,7 +39,7 @@ $imageClass->pathToDB = 'data/sexshop/';
 
 $priceAndAvailable = new PriceAndAvailable;
 $titleGenerator = new titleGenerator(ROOT . "/cfg/title.xml");
-$atributes = new atributes($atributesArr, $wordlib->get_xml(ROOT . "/atribut.xml"));
+$attributes = new atributes($atributesArr, $wordlib->get_xml(ROOT . "/atribut.xml"));
 
 $oData = new templates_csv_data();
 
@@ -47,7 +47,8 @@ $oData = new templates_csv_data();
 if (($handle = fopen($file, "r")) !== FALSE) {
 	// Часть первая формируем массив из строковых категорий
 
-	foreach (QueryGet("SELECT * FROM oc_parcer_category") as $category) {
+	$categoryArrBase = [];
+	foreach (system_orm::getInstance()->select()->setTable('oc_parcer_category')->do() as $category) {
 		$categoryArrBase[ $category[ 'id' ] ] = $category;
 	}
 
@@ -70,7 +71,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 		$request = QueryGet("SELECT P.product_id,P.sku,PC.category_id FROM `oc_product` P LEFT JOIN oc_product_to_category PC ON P.product_id = PC.product_id WHERE P.sku = '" . $data[ 0 ] . "' AND PC.main_category = 1");
 
 		if (empty($request) && $data[ 34 ]) {
-			/* 	Создаём список категорий
+			/** 	Создаём список категорий
 			 */
 			$categoryArr = explode('/', $data[ 6 ]);
 
@@ -97,7 +98,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			 */
 			$keywords = implode(", ", explode(" ", $wordlib->clearstr($oData->title))) . ", " . implode(', ', $categoryArr);
 
-			$atributesFromName = $atributes->fromName($data[ 2 ]);
+			$atributesFromName = $attributes->fromName($data[ 2 ]);
 
 			include(ROOT . '/atributesRule.php');
 			$title = $titleGenerator->getTitle(array(
@@ -105,7 +106,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 				(isset($categoryArr[ 1 ])) ? $categoryArr[ 1 ] : $categoryArr[ 0 ],
 				$oData->manufacturer,
 				$wordlib->translitEN($wordlib->clearTitle($oData->title)),
-				$atributes->getParam('color')
+				$attributes->getParam('color')
 			));
 
 			/** Создание товара
@@ -133,8 +134,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 			/** Внесение товара в магазин
 			 */
-			$insertProductToStore = system_orm::getInstance()->insert();
-			$insertProductToStore->setTable('oc_product_to_store');
+			$insertProductToStore = system_orm::getInstance()->insert()->setTable('oc_product_to_store');
 			$insertProductToStore->setValues(array (
 				'product_id' => $id,
 				'store_id' => '0'
@@ -143,8 +143,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 			/** Внесение товара в категорию
 			 */
-			$insertProductToCategory = system_orm::getInstance()->insert();
-			$insertProductToCategory->setTable('oc_product_to_category');
+			$insertProductToCategory = system_orm::getInstance()->insert()->setTable('oc_product_to_category');
 			$insertProductToCategory->setValues(array (
 				'product_id' => $id,
 				'category_id' => $catId,
@@ -156,8 +155,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			*/
 			foreach (array($oData->image1,$oData->image2) as $additionalImage) {
 				if(empty($additionalImage)) continue;
-				$insertProductImage = system_orm::getInstance()->insert();
-				$insertProductImage->setTable('oc_product_image');
+				$insertProductImage = system_orm::getInstance()->insert()->setTable('oc_product_image');
 				$insertProductImage->setValues(array (
 					'product_id' => $id,
 					'image' => $imageClass->setImage($additionalImage) ,
@@ -168,9 +166,8 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 			makeUrl("product_id=" . $id, $wordlib->translitRU($data[ 2 ]) . "_" . $id);
 
-			foreach ($atributes->get() as $atributBit) {
-				$insertProductAttribute = system_orm::getInstance()->insert();
-				$insertProductAttribute->setTable('oc_product_attribute');
+			foreach ($attributes->get() as $atributBit) {
+				$insertProductAttribute = system_orm::getInstance()->insert()->setTable('oc_product_attribute');
 				$insertProductAttribute->setValues(array (
 					'product_id' => $id,
 					'attribute_id' => $atributBit['id'],
@@ -179,7 +176,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 				));
 				$insertProductAttribute->do();
 
-				$atributes->filter->set($atributBit, $id, $catId);
+				$attributes->filter->set($atributBit, $id, $catId);
 			}
 
 			/** Массив для отчёта
@@ -202,15 +199,15 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 	}
 }
 
-foreach (QueryGet("SELECT * FROM oc_parcer_category WHERE `target_id` != '0'") as $categoryBit) {
-	if (!QueryGet("SELECT category_id FROM oc_category WHERE category_id = '" . $categoryBit[ 'id' ] . "'")) {
+foreach (system_orm::getInstance()->select()->setTable('oc_parcer_category')->setConditions(['target_id'=>['!=',0]])->do() as $categoryBit) {
+	if (empty(system_orm::getInstance()->select()->setTable('oc_category')->setConditions(['category_id'=>$categoryBit[ 'id' ]])->do())) {
 		makeCategory($categoryBit[ 'id' ], $categoryBit[ 'parent' ], $categoryBit[ 'name' ], $categoryBit[ 'target_id' ]);
 		makeUrl("category_id=" . $categoryBit[ 'id' ], $wordlib->translitRU($categoryBit[ 'name' ]));
 	}
 }
 
-foreach (QueryGet("SELECT * FROM oc_parcer_manufacturer") as $manufacturerBit) {
-	if (!QueryGet("SELECT manufacturer_id FROM oc_manufacturer WHERE manufacturer_id = '" . $manufacturerBit[ 'manufacturer_id' ] . "'")) {
+foreach (system_orm::getInstance()->select()->setTable('oc_parcer_manufacturer')->do() as $manufacturerBit) {
+	if (empty(system_orm::getInstance()->select()->setTable('oc_manufacturer')->setConditions(['manufacturer_id'=>$manufacturerBit[ 'manufacturer_id' ]])->do())) {
 		makeManufacturer($manufacturerBit[ 'manufacturer_id' ], $manufacturerBit[ 'group' ]);
 		makeUrl("manufacturer_id=" . $manufacturerBit[ 'manufacturer_id' ], $wordlib->translitRU($manufacturerBit[ 'group' ]));
 	}

@@ -4,7 +4,7 @@
  *
  * @author PHP-1
  */
-class ocFilter {
+class ocFilter extends system_base {
 	public $values = array();
 	public $counter = 0;
 	protected $first = NULL;
@@ -55,7 +55,7 @@ class ocFilter {
 	protected function setRelations($valueName, $value, $id, $category){
 		$optionId = $value[ 'id' ];
 
-		$insertOptionValueDescription = system_orm::getInstance()->insert();
+		$insertOptionValueDescription = $this->orm()->insert();
 		$insertOptionValueDescription->setTable('oc_ocfilter_option_value_description');
 		$insertOptionValueDescription->setValues(array (
 			'value_id'=>NULL,
@@ -67,7 +67,7 @@ class ocFilter {
 
 		if ($value_id) {
 
-			$insertOptionValue = system_orm::getInstance()->insert();
+			$insertOptionValue = $this->orm()->insert();
 			$insertOptionValue->setTable('oc_ocfilter_option_value');
 			$insertOptionValue->setValues(array (
 				'value_id' => $value_id,
@@ -80,7 +80,7 @@ class ocFilter {
 
 			$insertOptionValue->do();
 		}else{
-			$getOptionValue = system_orm::getInstance()->select();
+			$getOptionValue = $this->orm()->select();
 			$getOptionValue->setTable('oc_ocfilter_option_value_description');
 			$getOptionValue->setOutputValues('value_id');
 			$getOptionValue->setConditions(array(
@@ -91,7 +91,7 @@ class ocFilter {
 		}
 
 		/** Добавление связи Категория - атрибут */
-		$insertOptionToCategory = system_orm::getInstance()->insert();
+		$insertOptionToCategory = $this->orm()->insert();
 		$insertOptionToCategory->setTable('oc_ocfilter_option_to_category');
 		$insertOptionToCategory->setValues(array(
 			'option_id'=>$optionId,
@@ -100,7 +100,7 @@ class ocFilter {
 		$insertOptionToCategory->do();
 
 		/** Добавление связи Товар - атрибут */
-		$insertOptionToProduct = system_orm::getInstance()->insert();
+		$insertOptionToProduct = $this->orm()->insert();
 		$insertOptionToProduct->setTable('oc_ocfilter_option_value_to_product');
 		$insertOptionToProduct->setValues(array(
 			'product_id'=>$id,
@@ -116,7 +116,7 @@ class ocFilter {
 	 * @param array $value массив значений атрибута (id, name)
 	 */
 	protected function setAtribute(array $value){
-		$insertOptionDescription = system_orm::getInstance()->insert();
+		$insertOptionDescription = $this->orm()->insert();
 		$insertOptionDescription->setTable('oc_ocfilter_option_description');
 		$insertOptionDescription->setValues(array(
 				'option_id' => $value[ 'id' ],
@@ -127,7 +127,7 @@ class ocFilter {
 		);
 		$insertOptionDescription->do();
 
-		$insertOption = system_orm::getInstance()->insert();
+		$insertOption = $this->orm()->insert();
 		$insertOption->setTable('oc_ocfilter_option');
 		$insertOption->setValues(array(
 			'option_id' => $value[ 'id' ],
@@ -142,7 +142,7 @@ class ocFilter {
 		));
 		$insertOption->do();
 
-		$insertOptionToStore = system_orm::getInstance()->insert();
+		$insertOptionToStore = $this->orm()->insert();
 		$insertOptionToStore->setTable('oc_ocfilter_option_to_store');
 		$insertOptionToStore->setValues(array (
 			'option_id' => $value[ 'id' ],
