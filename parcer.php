@@ -246,5 +246,4 @@ foreach($reminder->check() as $user){
 Добавлено товаров <?= $products_count . "\n" ?>
 Всего итераций <?= $iteration . "\n" ?>
 Страница создана за <?= round(microtime(true) - $start, 3) ?> сек.
-Совпадений в прайсе <?= $matchesR ?>.
 <?php endif;
