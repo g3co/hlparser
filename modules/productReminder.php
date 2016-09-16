@@ -35,7 +35,7 @@ SQL;
             }else{
                 $output[count($output) - 1]['products'][] = $remindItem;
             }
-            $this->orm()->delete()->setTable('oc_product_remind')->setConditions(['id'=>$remindItem['id']])->do();
+            #$this->orm()->delete()->setTable('oc_product_remind')->setConditions(['id'=>$remindItem['id']])->do();
         }
 
         return $output;

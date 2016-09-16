@@ -42,6 +42,8 @@ $titleGenerator = new titleGenerator(ROOT . "/cfg/title.xml");
 $atributes = new atributes($atributesArr, $wordlib->get_xml(ROOT . "/atribut.xml"));
 
 $oData = new templates_csv_data();
+
+/** Старт обработки*/
 if (($handle = fopen($file, "r")) !== FALSE) {
 	// Часть первая формируем массив из строковых категорий
 
@@ -52,6 +54,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 
 
 	while (($data = fgetcsv($handle, 100000000, ";")) !== FALSE) {
+		break;
 
 		$id = NULL;
 		$catId = NULL;
@@ -224,9 +227,17 @@ foreach (QueryGet("SELECT * FROM oc_parcer_manufacturer") as $manufacturerBit) {
 
 /** Напоминалка о поступлении товара*/
 $reminder = new productReminder();
-$reminder->check();
+foreach($reminder->check() as $user){
+	$content = system_templator::loadTemplate('reminder')->generate([
+		'h1'=>config::SITE_NAME,
+		'h2'=>'Вы просили напомнить, когда появятся товары:',
+		'products'=>$user['products']
+	]);
+	consoleLog($content);
+	mailer::getInstance()->setAddress($user['email'])->setSubject('Появились товары, которые вы ждёте')->setContent($content)->send();
+}
 
-echo system_templator::getInstance('reminder')->generate(['test'=>'test variable']);
+
 
 ?>
 

@@ -29,7 +29,7 @@ class system_templator
      * @param $templateName
      * @return system_templator
      */
-    static public function getInstance($templateName) {
+    static public function loadTemplate($templateName) {
         if (!isset(self::$_instance[$templateName])) {
             $templateEngine = new self();
             $templateEngine->setName($templateName);
