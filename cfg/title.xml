@@ -5,17 +5,8 @@
 -->
 
 <title>
-    <templates> 
-        <template>#title# - купить по лучшей цене, описание, характеристики, узнать стоимость и заказать #rutitle# в #mod:sexshop# #mod:honeylovers#</template>
-        <template>#title# - характеристики, обзор, цена, купить #title# в #mod:honeylovers#</template>
-        <template>#title# - купить в #mod:honeylovers#</template>
-        <template>#title# - купить #category# в #mod:honeylovers#</template>
-        <template>#title# - купить #category# #title# в #mod:honeylovers#</template>
-        <template>#title# - купить #title# в #mod:honeylovers#</template>
-        <template>#title# - купить в каталоге #category# #title# с доставкой в #mod:sexshop# #mod:honeylovers#</template>
-        <template>#title# #manufacturer# #color# - купить #category# #mod:brand# #title# по лучшей цене в #mod:sexshop# #mod:honeylovers#</template>
-        <template>#title# - купить в Санкт-Петербурге в #mod:sexshop# #mod:honeylovers#</template>
-        <template>Купить #title# в #mod:sexshop#: цена на #category# #title# в каталоге #mod:honeylovers#</template>
+    <templates>
+        <template>#title#</template>
     </templates>
     
     <mod> 

@@ -124,11 +124,11 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			$oProductTemplate->manufacturer_id = getManufacturerId($oData->manufacturer);
 
 			$oProductDescriptionTemplate = new templates_product_description;
-			$oProductDescriptionTemplate->name = $oData->title;
+			$oProductDescriptionTemplate->name = $wordlib->clearTitle($oData->title);
 			$oProductDescriptionTemplate->description = $oData->description;
 			$oProductDescriptionTemplate->meta_keyword = $keywords;
 			$oProductDescriptionTemplate->seo_title = $title;
-			$oProductDescriptionTemplate->seo_h1 = $oData->title;
+			$oProductDescriptionTemplate->seo_h1 = $wordlib->clearTitle($oData->title);
 
 			$id = products_collection::getInstance()->create($oProductTemplate, $oProductDescriptionTemplate);
 

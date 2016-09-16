@@ -11,77 +11,7 @@ class WordsFunct
 {
     public $file = NULL;
     public $xml = NULL;
-    
-    
-    public function afgetcsv($f, $length, $d=";", $q='"') 
-    {
-        $list = array();
-        $st = fgets($f, $length);
-        if ($st === false || $st === null) return $st;
-        while ($st !== "" && $st !== false) {
-            if ($st[0] !== $q) {
-                # Non-quoted.
-                list ($field) = explode($d, $st, 2);
-                $st = substr($st, strlen($field)+strlen($d));
-            } else {
-                # Quoted field.
-                $st = substr($st, 1);
-                $field = "";
-                while (1) {
-                    # Find until finishing quote (EXCLUDING) or eol (including)
-                    preg_match("/^((?:[^$q]+|$q$q)*)/sx", $st, $p);
-                    $part = $p[1];
-                    $partlen = strlen($part);
-                    $st = substr($st, strlen($p[0]));
-                    $field .= str_replace($q.$q, $q, $part);
-                    if (strlen($st) && $st[0] === $q) {
-                        # Found finishing quote.
-                        list ($dummy) = explode($d, $st, 2);
-                        $st = substr($st, strlen($dummy)+strlen($d));
-                        break;
-                    } else {
-                        # No finishing quote - newline.
-                        $st = fgets($f, $length);
-                    }
-                }
-            }
-            $list[] = $field;
-        }
-        return $list;
-    }
-        
-    public function csv_parse($file = NULL)
-    {
-        if(!isset($file)) $file = $this->file;
-        if (($handle = fopen($file, "r")) !== FALSE) 
-        { 
-            function code($input)
-            {
-                return iconv( "Windows-1251", "UTF-8", $input);
-            }
-            while (($data = $this->afgetcsv($handle, 1000, ";")) !== FALSE) 
-            {
-                $data = array_map("code",$data);
-                $arr['id'] = $data[0];
-                $arr['name'] = $data[2];
-                $arr['category'] = explode(" # ", $data[3]);
-                $arr['manufacturer'] = $data[4];
-                $arr['country'] = $data[5];
-                $arr['section'] = $data[6];
-                $arr['quality'] = $data[7];
-                $arr['sex'] = $data[8];
-                $arr['color'] = $data[9];
-                $arr['description'] = $data[10];
-                $arr['kit'] = $data[11];
-                $output[$data[0]] = $arr;
-            }
 
-            return($output);
-        }
-    }
-   
-    
-    
     public function translitEN($str) 
     {
         $tr = array
@@ -311,14 +241,7 @@ class WordsFunct
         $xml = new SimpleXMLElement($buff);
         return $xml;
     }
-    
-    function array_empty($arr) { 
-        return array(); 
-    }
-	
-	function cropStr($str, $size){
-		return mb_substr($str,0,mb_strrpos(mb_substr($str,0,$size,'utf-8'),' ',utf-8),'utf-8');
-	}
+
 }
 
 $wordlib = new WordsFunct;
