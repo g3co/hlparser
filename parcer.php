@@ -231,9 +231,11 @@ foreach($reminder->check() as $user){
 	$content = system_templator::loadTemplate('reminder')->generate([
 		'h1'=>config::SITE_NAME,
 		'h2'=>'Вы просили напомнить, когда появятся товары:',
-		'products'=>$user['products']
+		'products'=>$user['products'],
+		'sitelink'=>config::SITE_URL,
+		'sitename'=>config::SITE_NAME,
+		'fromemail'=>config::SITE_INFO_EMAIL,
 	]);
-	consoleLog($content);
 	mailer::getInstance()->setAddress($user['email'])->setSubject('Появились товары, которые вы ждёте')->setContent($content)->send();
 }
 

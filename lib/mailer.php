@@ -22,6 +22,7 @@ class mailer {
     }
 
     public function setAddress($email){
+        $this->mail->clearAddresses();
         $this->mail->addAddress($email);
         return $this;
     }

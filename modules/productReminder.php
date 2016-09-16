@@ -28,14 +28,14 @@ SQL;
         $site = config::SITE_URL;
 
         foreach($remindProducts as $remindItem){
-            $remindItem['link'] = $site . '/index.php?route=product/product&product_id=' . $remindItem['id'];
+            $remindItem['link'] = $site . '/index.php?route=product/product&product_id=' . $remindItem['product_id'];
             if($lastEmail != $remindItem['user_email']){
                 $output[] = ['products'=>[$remindItem],'email'=>$remindItem['user_email']];
                 $lastEmail = $remindItem['user_email'];
             }else{
                 $output[count($output) - 1]['products'][] = $remindItem;
             }
-            #$this->orm()->delete()->setTable('oc_product_remind')->setConditions(['id'=>$remindItem['id']])->do();
+            $this->orm()->delete()->setTable('oc_product_remind')->setConditions(['id'=>$remindItem['id']])->do();
         }
 
         return $output;

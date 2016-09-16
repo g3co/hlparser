@@ -11,6 +11,8 @@ class config {
 
     const SITE_URL = 'http://honeylovers.ru';
     const SITE_NAME= 'HoneyLovers.ru';
+    const SITE_INFO_EMAIL= 'info@honeylovers.ru';
+    const SITE_NOREPLY_EMAIL= 'no-reply@honeylovers.ru';
 
 	const DB_HOST = 'localhost';
 	const DB_USERNAME = 'honeylovers';

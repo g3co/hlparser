@@ -14,7 +14,7 @@
                 <tr>
                     <td align="center" class="masthead" style="padding: 20px 0;background: #346dbc;color: white;">
 
-                        <h1 style="margin: 0 auto !important;max-width: 90%;text-transform: uppercase;"><?=empty($h1) ? '' : $h1 ?></h1>
+                        <h1 style="font-size:25px; margin: 0 auto !important;max-width: 90%;color: white;text-transform: uppercase;"><?=empty($h1) ? '' : $h1 ?></h1>
 
                     </td>
                 </tr>
@@ -23,29 +23,22 @@
 
                         <h2><?=empty($h2) ? '' : $h2 ?></h2>
 
-                        <p>Kielbasa venison ball tip shankle. Boudin prosciutto landjaeger, pancetta jowl turkey tri-tip
-                            porchetta beef pork loin drumstick. Frankfurter short ribs kevin pig ribeye drumstick bacon
-                            kielbasa. Pork loin brisket biltong, pork belly filet mignon ribeye pig ground round
-                            porchetta turducken turkey. Pork belly beef ribs sausage ham hock, ham doner frankfurter
-                            pork chop tail meatball beef pig meatloaf short ribs shoulder. Filet mignon ham hock
-                            kielbasa beef ribs shank. Venison swine beef ribs sausage pastrami shoulder.</p>
+                        <p>
+                            <?php foreach($products as $product):?>
+                                <a href="<?=$product['link']?>"><?=$product['name']?></a><br/>
+                            <?php endforeach;?>
+                        </p>
 
                         <table style="width:100%">
                             <tr>
                                 <td align="center">
                                     <p>
-                                        <a href="#" class="button" style="text-decoration: none; display: inline-block;color: white;background: #346DBC;border: solid #346DBC;border-width: 10px 20px 8px;font-weight: bold;border-radius: 4px; ">
-                                            Share the Awesomeness</a>
+                                        <a href="<?=empty($sitelink) ? '#' : $sitelink ?>" class="button" style="text-decoration: none; display: inline-block;color: white;background: #346DBC;border: solid #346DBC;border-width: 10px 20px 8px;font-weight: bold;border-radius: 4px; ">
+                                            Перейти на сайт</a>
                                     </p>
                                 </td>
                             </tr>
                         </table>
-
-                        <p>By the way, if you're wondering where you can find more of this fine meaty filler, visit <a
-                                href="http://baconipsum.com">Bacon Ipsum</a>.</p>
-
-                        <p><em>– Mr. Pen</em></p>
-
                     </td>
                 </tr>
             </table>
@@ -59,8 +52,7 @@
             <table style="width: 100%">
                 <tr>
                     <td class="content footer" style="background: none; text-align: center">
-                        <p>Sent by <a href="#">Company Name</a>, 1234 Yellow Brick Road, OZ, 99999</p>
-                        <p><a href="mailto:">hello@company.com</a> | <a href="#">Unsubscribe</a></p>
+                        <p>Напишите нам, если возникли вопросы <a href="mailto:<?=empty($fromemail) ? '' : $fromemail ?>"><?=empty($fromemail) ? '' : $fromemail ?></a>
                     </td>
                 </tr>
             </table>
