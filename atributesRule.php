@@ -176,6 +176,9 @@ switch ($data[ 6 ]) {
     case 'Лубриканты/Продлевающие':
         $attributes->set('type', "Продлевающие");
         break;
+    case 'Лубриканты/Массажное масло':
+        $attributes->set('type', "Массажное масло");
+        break;
 }
 
 

@@ -199,6 +199,8 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 	}
 }
 
+consoleLog(system_orm::getInstance()->select()->setTable('oc_parcer_category')->setConditions(['target_id'=>['!=',0]])->do());
+
 foreach (system_orm::getInstance()->select()->setTable('oc_parcer_category')->setConditions(['target_id'=>['!=',0]])->do() as $categoryBit) {
 	if (empty(system_orm::getInstance()->select()->setTable('oc_category')->setConditions(['category_id'=>$categoryBit[ 'id' ]])->do())) {
 		makeCategory($categoryBit[ 'id' ], $categoryBit[ 'parent' ], $categoryBit[ 'name' ], $categoryBit[ 'target_id' ]);

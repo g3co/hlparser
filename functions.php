@@ -48,6 +48,7 @@ function getCat($str, $level) {
 function getCatArr($str, $level) {
 	$level = ($level) ? " AND `parent` != 0" : ''; // Костыль, выбираем подкатегорию, тк в next может находится и родительская категория
 	$request = QueryGet("SELECT * FROM `oc_parcer_category` WHERE `next` = '{$str}'" . $level);
+    consoleLog([$str,$request,$level]);
 	if (isset($request[ 0 ]))
 		return $request[ 0 ]; else return false;
 }
