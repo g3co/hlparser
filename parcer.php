@@ -10,6 +10,10 @@ define('LIB_ROOT', ROOT . '/lib/');
 include_once 'config.php';
 include_once 'lib/autoloader.php';
 
+backup::do(ROOT . '/backup');
+
+die;
+
 $dbConnect = system_database::getInstance();
 $dbConnect->connect(config::DB_HOST, config::DB_NAME, config::DB_PASSWD, config::DB_USERNAME);
 
