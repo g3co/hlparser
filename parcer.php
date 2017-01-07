@@ -4,15 +4,12 @@
  * для honeylovers.ru
  */
 $start = microtime(true);
-
 define('ROOT', __DIR__);
 define('LIB_ROOT', ROOT . '/lib/');
 include_once 'config.php';
 include_once 'lib/autoloader.php';
 
 backup::do(ROOT . '/backup');
-
-die;
 
 $dbConnect = system_database::getInstance();
 $dbConnect->connect(config::DB_HOST, config::DB_NAME, config::DB_PASSWD, config::DB_USERNAME);
@@ -120,6 +117,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 			$oProductTemplate->model = $oData->code;
 			$oProductTemplate->sku = $oData->code;
 			$oProductTemplate->isbn = config::SEX_OPT_STORE;
+			$oProductTemplate->ean = $oData->barcode;
 			$oProductTemplate->stock_status_id = 5;
 			$oProductTemplate->quantity = 1;
 			$oProductTemplate->tax_class_id = 1;
@@ -203,7 +201,7 @@ if (($handle = fopen($file, "r")) !== FALSE) {
 	}
 }
 
-consoleLog(system_orm::getInstance()->select()->setTable('oc_parcer_category')->setConditions(['target_id'=>['!=',0]])->do());
+//consoleLog(system_orm::getInstance()->select()->setTable('oc_parcer_category')->setConditions(['target_id'=>['!=',0]])->do());
 
 foreach (system_orm::getInstance()->select()->setTable('oc_parcer_category')->setConditions(['target_id'=>['!=',0]])->do() as $categoryBit) {
 	if (empty(system_orm::getInstance()->select()->setTable('oc_category')->setConditions(['category_id'=>$categoryBit[ 'id' ]])->do())) {

@@ -102,12 +102,13 @@ class ocFilter extends system_base {
 		/** Добавление связи Товар - атрибут */
 		$insertOptionToProduct = $this->orm()->insert();
 		$insertOptionToProduct->setTable('oc_ocfilter_option_value_to_product');
+
 		$insertOptionToProduct->setValues(array(
 			'product_id'=>$id,
 			'value_id'=>$value_id,
 			'option_id'=>$optionId,
-			'slide_value_min'=>'0.0000',
-			'slide_value_max'=>'0.0000'
+			'slide_value_min'=> is_numeric($value['value']) ? (float)$value['value'] : 0,
+			'slide_value_max'=> is_numeric($value['value']) ? (float)$value['value'] : 0
 		));
 		$insertOptionToProduct->do();
 	}
